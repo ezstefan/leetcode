@@ -1,25 +1,20 @@
 class Solution {
 public:
     bool check(vector<int>& nums) {
-        int n=nums.size();
-        int cnt =0;
-        for ( int i=1 ; i<n;i++){
-            if (nums[i]>=nums[i-1]){
-
+        int n = nums.size();
+        int count = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // Compare current element with the previous one in a circular manner
+            if (nums[i] < nums[(i - 1 + n) % n]) {
+                count++;
             }
-            if (nums[i]<nums[i-1]){
-                cnt =cnt +1;
-
-            } 
+            // If there is more than one place where the order is broken, return false
+            if (count > 1) {
+                return false;
+            }
+        }
         
-        }if (cnt>=2  ){
-            return false;
-
-        }
-        if( cnt ==1 && nums[0]<nums[n-1]){
-            return false;
-        }
         return true;
-        
     }
 };
