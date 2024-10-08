@@ -10,24 +10,52 @@
  */
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-        stack<int> st;
-        ListNode* temp = head;
-
-        while( temp!= NULL) {
-            st.push(temp->val);
-            temp = temp->next;
+    // Function to reverse a linked list.
+    ListNode* reverseLinkedList(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return head;
         }
-        temp = head;
-        while( temp!= NULL) {
-            if(temp->val != st.top()) {
+        ListNode* newHead = reverseLinkedList(head->next);
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = NULL;
+
+        return newHead;
+    }
+
+    // Function to check if the linked list is a palindrome.
+    bool isPalindrome(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return true;  // Return true for empty or single node list.
+        }
+
+        // Find the middle of the linked list using two pointers.
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast->next != NULL && fast->next->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Reverse the second half of the list.
+        ListNode* newHead = reverseLinkedList(slow->next);
+
+        ListNode* first = head;
+        ListNode* second = newHead;
+
+        // Compare the first and second halves of the list.
+        while (second != NULL) {
+            if (first->val != second->val) {
+                reverseLinkedList(newHead);  // Restore the list before returning.
                 return false;
             }
-            temp = temp->next;
-            st.pop();
-
+            first = first->next;
+            second = second->next;
         }
-        return true;
-        
+
+        reverseLinkedList(newHead);  // Restore the second half back to original.
+
+        return true;  // The list is a palindrome.
     }
 };
