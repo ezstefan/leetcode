@@ -14,42 +14,19 @@ public:
         if(head == NULL || head->next == NULL) {
             return head;
         }
+        ListNode* odd = head;
+        ListNode* even = head->next;
+        ListNode* evenHead = head->next;
 
-        vector<int> arr;  // Use a vector to store values
-        ListNode* temp = head;
+        while( even != NULL && even->next != NULL) {
+            odd->next = odd->next->next;
+            even->next = even->next->next;
 
-        // Collect odd indexed nodes
-        while(temp != NULL) {
-            arr.push_back(temp->val);  // Add node's value
-            if(temp->next != NULL) {
-                temp = temp->next;  // Move to the next node
-            }
-            if(temp != NULL) {
-                temp = temp->next;  // Move to the next odd indexed node
-            }
+            odd = odd->next;
+            even = even->next;
         }
-
-        // Collect even indexed nodes
-        temp = head->next;  // Start from the first even indexed node
-        while(temp != NULL) {
-            arr.push_back(temp->val);  // Add node's value
-            if(temp->next != NULL) {
-                temp = temp->next;  // Move to the next node
-            }
-            if(temp != NULL) {
-                temp = temp->next;  // Move to the next even indexed node
-            }
-        }
-
-        // Update the linked list with collected values
-        int i = 0;
-        temp = head;
-        while(temp != NULL) {
-            temp->val = arr[i];  // Update node's value
-            i++;
-            temp = temp->next;  // Move to the next node
-        }
-
-        return head;  // Return the modified list
+        odd->next = evenHead;
+        return head;
+        
     }
 };
