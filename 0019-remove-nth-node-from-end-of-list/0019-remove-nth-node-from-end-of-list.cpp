@@ -11,38 +11,34 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-    // Step 1: Calculate the length of the linked list
-        int length = 0;
+        if (head == NULL) {
+            return NULL;
+        }
+        int cnt = 0;
         ListNode* temp = head;
-        while (temp != nullptr) {
-            length++;
-            temp = temp->next;
+
+        while( temp != NULL) {
+            cnt++;
+            temp=temp->next;
         }
-        
-        // Step 2: Find the position from the start
-        int positionFromStart = length - n;
-        if (positionFromStart < 0 || positionFromStart >= length) {
-            return head;  // Invalid k value, return the original list
-        }
-        
-        // Step 3: If deleting the head node
-        if (positionFromStart == 0) {
+        if(n == cnt) {
             ListNode* newHead = head->next;
-            delete head;  // Free the memory of the old head
+            delete(head);
             return newHead;
         }
-
-        // Step 4: Traverse to the node just before the node to delete
         temp = head;
-        for (int i = 0; i < positionFromStart - 1; i++) {
+        int res = cnt - n;
+        while(temp != NULL) {
+            res--;
+            if(res == 0) break;
             temp = temp->next;
         }
+        ListNode* deleteNode = temp->next;
+        temp->next = temp->next->next;
+        delete(deleteNode);
 
-        // Step 5: Delete the node by adjusting pointers
-        ListNode* nodeToDelete = temp->next;
-        temp->next = nodeToDelete->next;
-        delete nodeToDelete;  // Free the memory of the deleted node
 
-        return head;  // Return the modified list
+        return head;
+        
     }
 };
