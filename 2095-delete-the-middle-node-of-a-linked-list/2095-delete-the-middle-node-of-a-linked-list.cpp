@@ -26,17 +26,17 @@ public:
         temp = head;
         while (temp != NULL) {
             res--;
-            if (res == 0) break;
-            temp = temp->next;
+            if (res == 0) {
+                ListNode* deleteMiddle = temp->next; 
+                if (deleteMiddle != NULL) {
+                    temp->next = deleteMiddle->next;
+                    delete deleteMiddle; 
+                }
+                break;
+            }
+            temp= temp->next;
         }
-
-        if(temp != NULL && temp->next != NULL){
-        ListNode* middleDelete = temp->next;  
-        temp->next = middleDelete->next;
-        delete middleDelete;
-        }
-        
-
+          
         return head;
     }
 };
