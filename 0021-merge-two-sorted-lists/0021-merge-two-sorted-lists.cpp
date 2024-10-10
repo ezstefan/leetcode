@@ -10,36 +10,28 @@
  */
 class Solution {
 public:
-
-    ListNode* convertArrToLinkedList(vector<int>& arr){
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         ListNode* dummyNode = new ListNode(-1);
         ListNode* temp = dummyNode;
 
-        for(int i = 0; i<arr.size(); i++) {
-            temp->next = new ListNode(arr[i]);
+        while(list1 != NULL && list2 != NULL) {
+            if(list1->val <= list2->val) {
+                temp->next = list1;
+                list1 = list1->next;
+            }
+            else{
+                temp->next = list2;
+                list2 = list2->next;
+            }
             temp = temp->next;
         }
+        if(list1 != NULL) {
+            temp->next = list1;
+        }
+        else{
+            temp->next = list2;
+        }
         return dummyNode->next;
-    }
-
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        vector<int> arr;
-        ListNode* temp1= list1;
-        ListNode* temp2 = list2;
-
-        while(temp1 != NULL) {
-            arr.push_back(temp1->val);
-            temp1 = temp1->next;
-        }
-        while(temp2 != NULL) {
-            arr.push_back(temp2->val);
-            temp2 = temp2->next;
-        }
-
-        sort(arr.begin(),arr.end());
-        ListNode* head = convertArrToLinkedList(arr);
-        return head;
-
         
     }
 };
