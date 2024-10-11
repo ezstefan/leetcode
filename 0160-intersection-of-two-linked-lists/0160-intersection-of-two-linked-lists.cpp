@@ -8,24 +8,43 @@
  */
 class Solution {
 public:
+    ListNode* collisionPt(ListNode* temp1, ListNode* temp2, int d) {
+        while( d != 0) {
+            d--;
+            temp2 = temp2->next;
+        }
+        while(temp1 != temp2) {
+            temp1 = temp1 ->next;
+            temp2 = temp2 ->next;
+        }
+        return temp1;
+    }
+
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        unordered_map<ListNode*,int> mpp;
-        ListNode* temp = headA;
+        int cnt1 = 0;
+        ListNode* temp1 = headA;
 
-        while(temp != NULL) {
-            mpp[temp] = 1;
-            temp = temp->next;
+        while (temp1 != NULL) {
+            cnt1++;
+            temp1 = temp1->next;
         }
-        temp = headB;
+        int cnt2 = 0;
+        ListNode* temp2 = headB;
 
-        while(temp != NULL) {
-            if(mpp.find(temp) != mpp.end()){
-            return temp;
-            }
-            temp = temp->next;
+        while(temp2 != NULL) {
+            cnt2++;
+            temp2 = temp2->next;
         }
-        return NULL;
 
+        temp1 = headA;
+        temp2 = headB;
+
+        if(cnt1 < cnt2) {
+            return collisionPt(headA, headB, cnt2-cnt1);
+        }
+        else {
+            return collisionPt(headB, headA, cnt1-cnt2);
+        }
         
     }
 };
