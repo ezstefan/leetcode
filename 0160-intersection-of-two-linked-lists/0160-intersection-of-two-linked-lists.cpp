@@ -8,43 +8,30 @@
  */
 class Solution {
 public:
-    ListNode* collisionPt(ListNode* temp1, ListNode* temp2, int d) {
-        while( d != 0) {
-            d--;
-            temp2 = temp2->next;
-        }
-        while(temp1 != temp2) {
-            temp1 = temp1 ->next;
-            temp2 = temp2 ->next;
-        }
-        return temp1;
-    }
-
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int cnt1 = 0;
-        ListNode* temp1 = headA;
 
-        while (temp1 != NULL) {
-            cnt1++;
-            temp1 = temp1->next;
+        if(headA == NULL || headB == NULL) {
+            return NULL;
         }
-        int cnt2 = 0;
+        ListNode* temp1 = headA;
         ListNode* temp2 = headB;
 
-        while(temp2 != NULL) {
-            cnt2++;
+        while(temp1 != temp2) {
+            temp1 = temp1->next;
             temp2 = temp2->next;
-        }
 
-        temp1 = headA;
-        temp2 = headB;
+            if(temp1 == temp2) {
+                return temp1;
+            }
 
-        if(cnt1 < cnt2) {
-            return collisionPt(headA, headB, cnt2-cnt1);
+            if(temp2 == NULL) {
+                temp2 = headA;
+            }
+            if(temp1 == NULL) {
+                temp1 = headB;
+            }        
         }
-        else {
-            return collisionPt(headB, headA, cnt1-cnt2);
-        }
+        return temp1;
         
     }
 };
