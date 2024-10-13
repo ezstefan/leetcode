@@ -11,28 +11,23 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if(head == NULL) {
-            return head;
+        if (head == NULL) {
+            return NULL;
         }
-        unordered_set<int> seen;
-        ListNode* prevNode = NULL;
         ListNode* temp = head;
+        ListNode* frontNode = temp->next;
 
-        while( temp != NULL) {
-            if(seen.find(temp->val) != seen.end()) {
-                ListNode* frontNode = temp->next;
-                prevNode->next = frontNode;
-                delete(temp);
+        while (frontNode != NULL) {
+            if (temp->val == frontNode->val) {
+                ListNode* duplicate = frontNode;
+                frontNode = frontNode->next; 
+                temp->next = frontNode;
+                delete duplicate;  
+            } else {
                 temp = frontNode;
+                frontNode = frontNode->next;
             }
-            else{
-                seen.insert(temp->val);
-                prevNode = temp;
-                temp = temp->next; 
-            }
-
         }
         return head;
-        
     }
 };
