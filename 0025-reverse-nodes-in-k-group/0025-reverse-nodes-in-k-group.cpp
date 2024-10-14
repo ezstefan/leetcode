@@ -24,7 +24,7 @@ public:
     ListNode* getKthNode(ListNode* head, int k) {
         ListNode* temp = head;
         k = k - 1;
-        while( temp != NULL && k >0) {
+        while(  temp != NULL && k > 0) {
             k--;
             temp = temp->next;
 
@@ -43,7 +43,7 @@ public:
             }
             ListNode* nextNode = kthNode->next;
             kthNode->next = NULL;
-            ListNode* newHead = reverseList(temp);
+            reverseList(temp);
             if( temp == head) {
                 head = kthNode;
             }
