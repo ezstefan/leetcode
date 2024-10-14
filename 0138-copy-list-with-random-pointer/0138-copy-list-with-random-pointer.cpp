@@ -16,23 +16,49 @@ public:
 
 class Solution {
 public:
-    Node* copyRandomList(Node* head) {
+    void insertCopyInbetween(Node* head) {
         Node* temp = head;
-        unordered_map<Node*,Node*> mpp;
 
         while( temp != NULL) {
-            Node* newNode = new Node(temp->val);
-            mpp[temp] = newNode;
-            temp = temp->next;
+            Node* copyNode = new Node(temp->val);
+            copyNode->next = temp->next;
+            temp->next = copyNode;
+            temp = temp->next->next;
         }
-        temp = head;
+    }
+
+    void connectRandomPointers(Node* head) {
+        Node* temp = head;
+
         while( temp != NULL) {
-            Node* copyNode = mpp[temp];
-            copyNode->next = mpp[temp->next];
-            copyNode->random = mpp[temp->random];
+            Node* copyNode = temp->next;
+            if(temp->random) {
+                copyNode->random = temp->random->next;
+            }
+            else{
+                copyNode->random = NULL;
+            }
+            temp = temp->next->next;
+        }
+    }
+    Node* getDeepCopyList(Node* head) {
+        Node* dummyNode = new Node(-1);
+        Node* res = dummyNode;
+        Node* temp = head;
+
+        while( temp != NULL) {
+            res->next = temp->next;
+            res = res->next;
+            temp->next = temp->next->next;
             temp = temp->next;
         }
-        return mpp[head];
+        return dummyNode->next;
+    }
+
+    Node* copyRandomList(Node* head) {
+        insertCopyInbetween(head);
+        connectRandomPointers(head);
+        return getDeepCopyList(head);
         
     }
 };
