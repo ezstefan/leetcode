@@ -1,25 +1,21 @@
 class Solution {
 public:
+    double func(double x, int n){
+        if(n==0){
+            return 1;
+        }
+        if(n%2 == 0){
+            return func(x*x, n/2);
+        }
+        else{
+            return x*func(x*x, n/2);
+        }
+    }
     double myPow(double x, int n) {
-        double ans = 1.0;
-        long long nn = n;
-        if( nn < 0) {
-            nn = -1*nn;
+        if(n<0){
+            double ans = func(x,n);
+            return 1/ans;
         }
-        while( nn != 0) {
-            if(nn % 2 == 1) {
-                ans = ans * x;
-                nn = nn - 1;
-            }
-            else {
-                x = x*x;
-                nn = nn/2;
-            }
-        }
-        if(n < 0) {
-            ans = (double)(1.0) / (double)(ans);
-        }
-        return ans;
-        
+        return func(x,n);
     }
 };
