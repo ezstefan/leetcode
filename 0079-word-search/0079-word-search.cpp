@@ -1,46 +1,42 @@
 class Solution {
 public:
-    bool searchNext(vector<vector<char>>& board, string word, int row, int col, int index, int m, int n) {
-
-        if(index == word.length()) {
+    vector<vector<int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    bool find(vector<vector<char>>& board, int i, int j, string &word, int idx, int m, int n) {
+        if(idx == word.length())
             return true;
-        }
-        if( row < 0 || col < 0 || row == m || col == n || board[row][col] != word[index] or board[row][col] == '!' ) {
+        
+        if(i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[idx] || board[i][j] == '$')
             return false;
+        
+        char temp = board[i][j];
+        board[i][j] = '$';
+        
+        for(auto& dir : directions) {
+            int i_ = i + dir[0];
+            int j_ = j + dir[1];
+            
+            if(find(board, i_, j_, word, idx+1, m, n))
+                return true;
         }
-
-        char temp = board[row][col];
-        board[row][col] = '!';
-
-        bool top = searchNext(board, word, row-1, col, index + 1, m, n);
-
-        bool bottom = searchNext(board, word, row+1, col, index + 1, m, n);
-
-        bool right = searchNext(board, word, row, col+1, index + 1, m, n);
-
-        bool left = searchNext(board, word, row, col-1, index + 1, m , n);
-
-        board[row][col] = temp;
-
-        return top || bottom || right || left;
+        
+        board[i][j] = temp;
+        return false;
     }
-
+    
     bool exist(vector<vector<char>>& board, string word) {
         int m = board.size();
         int n = board[0].size();
-
-        int index = 0;
-
-        for(int i = 0 ; i<m; i++) {
+        if(m*n < word.length())
+            return false;
+        
+        for(int i = 0; i<m; i++) {
             for(int j = 0; j<n; j++) {
-                if(board[i][j] == word[index]) {
-                    if(searchNext(board, word, i, j, index, m, n)) {
-                        return true;
-                    }
+                if(board[i][j] == word[0] && find(board, i, j, word, 0, m, n)) {
+                    return true;
                 }
             }
         }
-        return false;
         
+        return false;
     }
 };
