@@ -7,7 +7,7 @@ public:
         return ans;
     }
     void helper(string s, int target,int i, const string& path, long eval, long residual) {
-        // bc
+
         if(i==s.length()){
             if(eval==target){
                 ans.push_back(path);
@@ -16,9 +16,8 @@ public:
         } 
         string currStr;
         long num=0;
-        // backtracking loop
+
         for(int j=i;j<s.length();j++){
-            // handle 0
             if(j>i && s[i]=='0') return;
             currStr+= s[j]; 
             num= num*10 + s[j]- '0';
