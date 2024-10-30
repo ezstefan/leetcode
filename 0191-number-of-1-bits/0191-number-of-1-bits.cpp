@@ -1,24 +1,12 @@
 class Solution {
 public:
     int hammingWeight(int n) {
-        string binary = "";
-        while(n>0) {
-            if(n%2 == 1) {
-                binary += '1';
-            }
-            else{
-                binary += '0';
-            }
-            n = n/2;
-        }
-        reverse(binary.begin(), binary.end());
         int cnt = 0;
-
-        for(int i = binary.size()-1; i >=0; i--) {
-            if(binary[i] == '1') {
-                cnt++;
-            }
+        while(n>0) {
+            cnt += (n & 1);
+            n = n >> 1;
         }
+        if(n==1) cnt += 1;
         return cnt;
         
     }
