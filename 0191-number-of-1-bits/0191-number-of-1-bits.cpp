@@ -4,16 +4,17 @@ public:
         string binary = "";
         while(n>0) {
             if(n%2 == 1) {
-                binary = '1' + binary;
+                binary += '1';
             }
             else{
-                binary = '0' + binary;
+                binary += '0';
             }
             n = n/2;
         }
+        reverse(binary.begin(), binary.end());
         int cnt = 0;
 
-        for(int i = binary.size(); i >=0; i--) {
+        for(int i = binary.size()-1; i >=0; i--) {
             if(binary[i] == '1') {
                 cnt++;
             }
