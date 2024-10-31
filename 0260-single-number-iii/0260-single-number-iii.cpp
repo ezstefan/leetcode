@@ -6,7 +6,7 @@ public:
         for(int i = 0; i <n; i++) {
             xorr = xorr ^ nums[i];
         }
-        long rightMost = (xorr & (xorr - 1)) ^ xorr;
+        int rightMost = (xorr & (xorr - 1)) ^ xorr;
         int b1 = 0;
         int b2 = 0;
 
