@@ -1,7 +1,8 @@
 class Solution {
 public:
-    void nextSmaller(vector<int>& arr, vector<int>& nse) {
+    vector<int> nextSmaller(vector<int>& arr) {
         int n = arr.size();
+        vector<int> nse(n);
         stack<int> st;
 
         for (int j = n - 1; j >= 0; j--) {
@@ -15,10 +16,12 @@ public:
             }
             st.push(j);
         }
+        return nse;
     }
 
-    void prevSmaller(vector<int>& arr, vector<int>& pse) {
+    vector<int> prevSmaller(vector<int>& arr) {
         int n = arr.size();
+        vector<int> pse(n);
         stack<int> st;
 
         for (int j = 0; j < n; j++) {
@@ -32,17 +35,17 @@ public:
             }
             st.push(j);
         }
+        return pse;
     }
 
     int sumSubarrayMins(vector<int>& arr) {
         int n = arr.size();
-        vector<int> nse(n), pse(n);
         int total = 0;
         int mod = (int)(1e9 + 7);
 
         
-        nextSmaller(arr, nse);
-        prevSmaller(arr, pse);
+        vector<int> nse = nextSmaller(arr);
+        vector<int> pse = prevSmaller(arr);
 
         
         for (int i = 0; i < n; i++) {
