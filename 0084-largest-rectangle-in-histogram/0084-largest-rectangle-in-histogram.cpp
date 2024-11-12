@@ -1,55 +1,30 @@
 class Solution {
 public:
-    vector<int> nextSmaller(vector<int>& arr) {
-        int n = arr.size();
-        vector<int> nse(n);
-        stack<int> st;
-
-        for(int i = n-1; i >= 0; i--) {
-            while(!st.empty() && arr[st.top()] >= arr[i]) {
-                st.pop();
-            }
-            if(!st.empty()) {
-                nse[i] = st.top();
-            }
-            else{
-                nse[i] = n;
-            }
-            st.push(i);
-        }
-        return nse;
-    }
-    vector<int> prevSmaller(vector<int>& arr) {
-        int n = arr.size();
-        vector<int> pse(n);
-        stack<int> st;
-
-        for(int i = 0; i < n; i++) {
-            while(!st.empty() && arr[st.top()] > arr[i]) {
-                st.pop();
-            }
-            if(!st.empty()) {
-                pse[i] = st.top();
-            }
-            else{
-                pse[i] = -1;
-            }
-            st.push(i);
-        }
-        return pse;
-    }
     int largestRectangleArea(vector<int>& heights) {
         int n = heights.size();
-
-        vector<int> nse = nextSmaller(heights);
-        vector<int> pse = prevSmaller(heights);
+        stack<int> st;
         int maxi = 0;
 
         for(int i = 0; i<n; i++) {
-            maxi = max(maxi, heights[i] * (nse[i] - pse[i] - 1));
+            while(!st.empty() && heights[st.top()] > heights[i]) {
+                int element = st.top();
+                st.pop();
+                int nse = i, pse = st.empty()? -1 : st.top();
+
+                maxi = max(maxi, heights[element] * (nse - pse - 1));
+
+            }
+            st.push(i);
+        }
+        while(!st.empty()) {
+            int nse = n;
+            int element = st.top();
+            st.pop();
+            int pse = st.empty()? -1 : st.top();
+
+            maxi = max(maxi, heights[element] * (nse - pse - 1));
         }
         return maxi;
-
         
     }
 };
